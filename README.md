@@ -1,6 +1,8 @@
 node-mcp23017
 =============
 
+Compatible with *nodejs up to 10.x*
+
 Node.js library for the I2C I/O Expander MCP23017 on a Raspberry Pi
 
 It currently supports reading, writing and changing the pull-up resistor of the GPIOs.
@@ -12,7 +14,7 @@ The module tries to mimic the Arduino-Syntax
 install via npm. just type the following in the terminal/console
 
 ````bash
-npm install node-mcp23017 --save
+npm install https://github.com/maxvgi/node-mcp23017.git --save
 ```
 
 ## Raspberry Pi Setup
