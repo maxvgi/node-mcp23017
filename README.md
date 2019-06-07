@@ -70,30 +70,36 @@ var mcp = new MCP23017({
   debug: true //default: false
 });
 
-/*
-  By default all GPIOs are defined as INPUTS.
-  You can set them all the be OUTPUTs by using the pinMode-Methode (see below),
-  You can also disable the debug option by simply not passing it to the constructor
-  or by setting it to false
-*/
-
-//set all GPIOS to be OUTPUTS
-for (var i = 0; i < 16; i++) {
-  mcp.pinMode(i, mcp.OUTPUT);
-  //mcp.pinMode(i, mcp.INPUT); //if you want them to be inputs
-  //mcp.pinMode(i, mcp.INPUT_PULLUP); //if you want them to be pullup inputs
-}
-
-mcp.digitalWrite(0, mcp.HIGH); //set GPIO A Pin 0 to state HIGH
-mcp.digitalWrite(0, mcp.LOW); //set GPIO A Pin 0 to state LOW
-
-/*
-  to read an input use the following code-block.
-  This reads pin Nr. 0 (GPIO A Pin 0)
-  value is either false or true
-*/
-mcp.digitalRead(0, function (err, value) {
-  console.log('Pin 0', value);
+mcp.init((err) => {
+    if (err) {
+        throw err;
+    }
+    
+    /*
+      By default all GPIOs are defined as INPUTS.
+      You can set them all the be OUTPUTs by using the pinMode-Methode (see below),
+      You can also disable the debug option by simply not passing it to the constructor
+      or by setting it to false
+    */
+    
+    //set all GPIOS to be OUTPUTS
+    for (var i = 0; i < 16; i++) {
+      mcp.pinMode(i, mcp.OUTPUT);
+      //mcp.pinMode(i, mcp.INPUT); //if you want them to be inputs
+      //mcp.pinMode(i, mcp.INPUT_PULLUP); //if you want them to be pullup inputs
+    }
+    
+    mcp.digitalWrite(0, mcp.HIGH); //set GPIO A Pin 0 to state HIGH
+    mcp.digitalWrite(0, mcp.LOW); //set GPIO A Pin 0 to state LOW
+    
+    /*
+      to read an input use the following code-block.
+      This reads pin Nr. 0 (GPIO A Pin 0)
+      value is either false or true
+    */
+    mcp.digitalRead(0, function (err, value) {
+      console.log('Pin 0', value);
+    });
 });
 
 ````
@@ -110,34 +116,40 @@ var mcp = new MCP23017({
   debug: false
 });
 
-/*
-  This function blinks 16 LED, each hooked up to an port of the MCP23017
-*/
-var pin = 0;
-var max = 16;
-var state = false;
-
-var blink = function() {
-  if (pin >= max) {
-    pin = 0; //reset the pin counter if we reach the end
-  }
-
-  if (state) {
-    mcp.digitalWrite(pin, mcp.LOW); //turn off the current LED
-    pin++; //increase counter
-  } else {
-    mcp.digitalWrite(pin, mcp.HIGH); //turn on the current LED
-    console.log('blinking pin', pin);
-  }
-  state = !state; //invert the state of this LED
-};
-
-//define all gpios as outputs
-for (var i = 0; i < 16; i++) {
-  mcp.pinMode(i, mcp.OUTPUT);
-}
-
-setInterval(blink, 100); //blink all LED's with a delay of 100ms
+mcp.init((err) => {
+    if (err) {
+        throw err;
+    }
+    
+    /*
+      This function blinks 16 LED, each hooked up to an port of the MCP23017
+    */
+    var pin = 0;
+    var max = 16;
+    var state = false;
+    
+    var blink = function() {
+      if (pin >= max) {
+        pin = 0; //reset the pin counter if we reach the end
+      }
+    
+      if (state) {
+        mcp.digitalWrite(pin, mcp.LOW); //turn off the current LED
+        pin++; //increase counter
+      } else {
+        mcp.digitalWrite(pin, mcp.HIGH); //turn on the current LED
+        console.log('blinking pin', pin);
+      }
+      state = !state; //invert the state of this LED
+    };
+    
+    //define all gpios as outputs
+    for (var i = 0; i < 16; i++) {
+      mcp.pinMode(i, mcp.OUTPUT);
+    }
+    
+    setInterval(blink, 100); //blink all LED's with a delay of 100ms
+});
 ````
 
 
